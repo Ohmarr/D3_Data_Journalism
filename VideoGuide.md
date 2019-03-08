@@ -16,3 +16,5 @@ Create a D3 Table using data binding.
 
 Manipulate images on a page to represent data using D3.
 [Watch the Video](https://youtu.be/ZAcb57vWeEg)
+
+
