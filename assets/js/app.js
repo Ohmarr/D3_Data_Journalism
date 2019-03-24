@@ -22,7 +22,7 @@
  * 17:smokesHigh
  */
 
-csv_url = 'https://raw.githubusercontent.com/the-Coding-Boot-Camp-at-UT/UTAUS201810DATA2/master/16_D3/Homework/Instructions/StarterCode/assets/data/data.csv?token=APbpvnKwY1hoh6gkhNYlITselwj5Sa21ks5ciyUywA%3D%3D'
+csv_url = 'https://raw.githubusercontent.com/Ohmarr/D3_Data_Journalism/master/assets/data/data.csv'
 /** –––––––––––––––––––––––––––––– * LEVEL I * –––––––––––––––––––––––––––––– 
  * 
  * Create Scatter Plot between 2 data variables such as (Healthcare vs. Poverty) or (Smokers vs. Age).
@@ -115,11 +115,8 @@ csv_url = 'https://raw.githubusercontent.com/the-Coding-Boot-Camp-at-UT/UTAUS201
 };
 
 // –––––––––––––––––– SVG CANVAS SETUP ––––––––––––––––––
-
-
 var width, height, chartGroup, margin; 
 promise = d3.csv(csv_url)
-
 
 function setCanvas() {			// Set SVG Canvas 
 	/** canvas clear; not used; 
@@ -129,8 +126,8 @@ function setCanvas() {			// Set SVG Canvas
 	 *   }
 	 */
 
-	var svgWidth = 960;
-	var svgHeight = 500;
+	var svgWidth = 1920;
+	var svgHeight = 1080;
 	margin = 
 		{
 		top: 20,
@@ -192,19 +189,9 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 			.domain([minX - avgX, maxX + avgX])
 			.range([0, width]);
 
-		var setXScale1 = d3			// Step 2a: Create X-scale (domain/range)
-			.scaleLinear()
-			.domain([minX, maxX])
-			.range([0, width]);
-
-			
 		var appendXAxis = d3			// Step 3a: Set X-Axis 
 			.axisBottom(setXScale);
 
-		var setYScale1 = d3			// Step 2b: Create Y-scale  (domain/range)
-			.scaleLinear() 				
-			.domain([minY, maxY])
-			.range([height, 0]);
 		var setYScale = d3			// Step 2b: Create Y-scale  (domain/range)
 			.scaleLinear() 				
 			.domain([minY - avgY, maxY + avgY])
@@ -224,7 +211,7 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 		chartGroup				// Step 5b: Append Y-Axis Text to ChartGroup
 			.append('text')
 			.attr('transform', `translate(${width/2-90}, ${height+margin.top+maxY})`)
-			.attr('dx', '3em')
+			.attr('dx', '0em')
 			.attr('class', 'axisText')
 			.text(`${axisOne}`);
 		chartGroup				// Step 5b: Append Y-Axis Text to ChartGroup
@@ -232,7 +219,7 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 			.attr('transform', 'rotate(-90)')
 			.attr('y', 0 - margin.left)
 			.attr('x', 0 - (height/2))
-			.attr('dy', '3em')
+			.attr('dy', '1em')
 			.attr('class', 'axisText')
 			.text(`${axisTwo}`);
 
@@ -245,7 +232,7 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 			.append('circle')
 			.attr('cx', d => setXScale(d[axisOne]))
 			.attr('cy', d => setYScale(d[axisTwo]))
-			.attr('r', '12')
+			.attr('r', '25')
 			.attr('fill', 'green')
 			.attr('stroke', 'black')
 			.attr('opacity', '.5');
@@ -254,7 +241,7 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 			.text(d=>d.abbr)
 			.attr('text-anchor', 'middle')
 			.attr('dx', d => setXScale(d[axisOne]))
-			.attr('dy', d => setYScale(d[axisTwo]))
+			.attr('dy', d => setYScale(d[axisTwo])+4.5)
    
 
 //     <circle style="fill:url(#toning);stroke:#010101;stroke-width:1.6871;stroke-miterlimit:10;" cx="250" cy="250" r="245">

@@ -68,3 +68,13 @@
     font-size: 13px;
   }
 }
+
+.tick {
+  font-size: 15pt;
+}
+
+.axisText {
+  font-size:35pt;
+  text-align: center;
+  text-transform: capitalize;
+}

@@ -18,7 +18,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%; /* Set the fixed height of the footer here */
-  height: 10px;
+  height: 12px;
   padding-top: 20px;
   padding-bottom: 40px;
   text-align: center;
@@ -31,5 +31,11 @@ body {
 }
 
 #mainTitle {
+  text-align: center;
+  font-size:50pt;
+}
+
+#scatter {
+  width: 100%;
   text-align: center;
 }
