@@ -115,7 +115,7 @@ csv_url = 'https://raw.githubusercontent.com/Ohmarr/D3_Data_Journalism/master/as
 };
 
 // –––––––––––––––––– SVG CANVAS SETUP ––––––––––––––––––
-var width, height, chartGroup, margin; 
+var width, height, chartGroup, margin, svg; 
 promise = d3.csv(csv_url)
 
 function setCanvas() {			// Set SVG Canvas 
@@ -138,7 +138,7 @@ function setCanvas() {			// Set SVG Canvas
 	width = svgWidth - margin.left - margin.right;
 	height = svgHeight - margin.top - margin.bottom;
 
-	var svg = d3 	 // Append SVG Wrapper to 'Scatter' html element
+	svg = d3 	 // Append SVG Wrapper to 'Scatter' html element
 		.select('#scatter')
 		.append('svg')
 		.attr('width', svgWidth)
@@ -200,6 +200,8 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 		var appendYAxis = d3			// Step 3a: Set Y-Axis
 			.axisLeft(setYScale);
 
+
+			
 		chartGroup				// Step 4a: Append X-Axis to chartGroup
 			.append('g')				
 			.attr('transform', `translate(0, ${height+avgY})`) // needed to move x-axis from top; by height of page
@@ -228,38 +230,61 @@ function buildChart(axisOne, axisTwo) {			// parameter = desired axes to plot
 			.data(inputData)
 			.enter()
 			.append('g')
+
+		var tooltip = d3.select('body')				// Step 6: Initialize tool tip
+			.append('div')
+			.data(inputData)
+			.style('position', 'absolute')
+			.style('z-index', '10')
+			.style('visibility', 'hidden')
+			.attr('class', 'tooltip')
+			.style('opacity', 1)
+			.html(d =>`<strong>${axisOne}</strong>:${d[axisOne]} <br><strong>${axisTwo}</strong>:${d[axisTwo]}`)
 		circleGroup
 			.append('circle')
 			.attr('cx', d => setXScale(d[axisOne]))
 			.attr('cy', d => setYScale(d[axisTwo]))
 			.attr('r', '25')
-			.attr('fill', 'green')
+			.attr('fill', 'blue')
 			.attr('stroke', 'black')
-			.attr('opacity', '.5');
+			.attr('opacity', '.43')
+			.on("mouseover", function(){return tooltip.style("visibility", "visible");})
+			.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+	
+			;
 		circleGroup	
 			.append('text')
 			.text(d=>d.abbr)
 			.attr('text-anchor', 'middle')
 			.attr('dx', d => setXScale(d[axisOne]))
 			.attr('dy', d => setYScale(d[axisTwo])+4.5)
-   
+
+		// chartGroup.selectAll(".point")
+		// 	.data(inputData)
+		// 	.enter()
+		// 	.append("path")
+		// 	.on("mouseover", function(d, i) { // show it and update html
+		// 	  d3.select('.tooltip')
+		// 	  tooltip.transition()
+		// 	    .duration(200)
+		// 	    .style("opacity", .9);
+		// 	  tooltip.html(d.x)
+		// 	    .style("left", (d3.event.pageX + 5) + "px")
+		// 	    .style("top", (d3.event.pageY - 28) + "px");
+		// 	})
+		// 	.on("mouseout", function(d, i) {
+		// 	  tooltip.transition()
+		// 	    .duration(500)
+		// 	    .style("opacity", 0);
+		// 	})
+		// 	.attr("class", "point")
 
 //     <circle style="fill:url(#toning);stroke:#010101;stroke-width:1.6871;stroke-miterlimit:10;" cx="250" cy="250" r="245">
 //     </circle>
 //     <text x="50%" y="50%" text-anchor="middle" stroke="#51c5cf" stroke-width="2px" dy=".3em">Look, I’m centered!Look, I’m centered!</text>
 //   </g>
 // </svg>
-
-
-
-		// var toolTip = d3.tip()				// Step 6: Initialize tool tip
-		// 	.attr('class', 'tooltip')
-		// 	.offset([80, -60])
-		// 	.html(d=>`${d.abbr}<br>Poverty: ${d.poverty}<br>Healthcare: ${d.healthcare}`);
-		// chartGroup.call(toolTip);	// Step 7: Create tooltip in the chart
-		// circlesGroup// Step 8: Create event listeners to display and hide the tooltip
-		// 	.on('click', data=>toolTip.show(data, this))
-		// 	.on('mouseout', (data, index)=>toolTip.hide(data))// on mouseout event
 
 	})
 };							// return builds chart w/ circles; 
